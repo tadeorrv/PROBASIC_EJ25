@@ -1,0 +1,6 @@
+r=int(input("ingrese el radio del circulo: "))
+pi=3.1416
+a=pi*r*r
+c=2*r*pi
+print("el area es: ",a)
+print("la circunferencia es: ",c)

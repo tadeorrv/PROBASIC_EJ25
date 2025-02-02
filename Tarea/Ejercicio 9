@@ -1,0 +1,26 @@
+#Ejercicio 9
+n=int(input("ingrese el limite de numeros: "))
+par=[]
+impar=list()
+for num in range(1,n+1):
+    if num % 2==0:
+        par.append(num)
+    else:
+        impar.append(num)
+tamanio= max(len(par),len(impar))
+for item in range(tamanio):
+    try:
+        print(impar[item],par[item])
+    except IndexError:
+        print(impar[item],"-")
+        try:
+            v1=par[item]
+        except:
+            v1="-"
+        try:
+            v2=impar[item]
+        except:
+            v2="-"
+        finally:
+            print(v1,v2)
+    

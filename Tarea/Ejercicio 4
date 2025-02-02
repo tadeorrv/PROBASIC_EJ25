@@ -1,0 +1,9 @@
+#Problema 4
+n=int(input("ingrese la cantidad de numeros: "))
+a=0
+b=1
+for i in range(n):
+   c=a+b
+   a=b
+   b=c
+print(b)

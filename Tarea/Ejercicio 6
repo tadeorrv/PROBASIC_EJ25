@@ -1,0 +1,10 @@
+#Ejercicio 6
+monto=int(input("ingresa el monto inicial: "))
+montoan=int(input("ingresa el monto anual: "))
+t=int(input("ingresa la cantidad de años: "))
+interes=int(input("ingresa la tasa de interes: "))
+r=monto
+for i in range(t):
+    r=r+montoan
+    r=r+(interes*montoan/100)
+print("el total seria: ",r)
