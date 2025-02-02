@@ -1,0 +1,7 @@
+#Problema 2
+a=int(input("ingrese el primer numero: "))
+b=int(input("ingrese el segundo numero: "))
+print("adicion= ",a+b)
+print("sustraccion= ",a-b)
+print("multiplicacion= ",a*b)
+print("division= ",a/b)
