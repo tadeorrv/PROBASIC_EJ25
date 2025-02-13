@@ -1,5 +1,5 @@
 #Ejercicio 5
-num=int(input("ingresa nun numero: "))
+num=int(input("ingrese un numero: "))
 for i in range(2, num):
     if num%i==0:
         print("el numero no es primo")
