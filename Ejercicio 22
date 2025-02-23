@@ -1,0 +1,41 @@
+import random
+
+def lanzar_moneda():
+    """Simula el lanzamiento de una moneda (cara o cruz)."""
+    resultado = random.choice(['Cara', 'Cruz'])
+    return resultado
+
+def lanzar_dado():
+    """Simula el lanzamiento de un dado (número entre 1 y 6)."""
+    resultado = random.randint(1, 6)
+    return resultado
+
+def main():
+    """Función principal que permite al usuario realizar lanzamientos."""
+    while True:
+        print("\n--- Simulación de Lanzamiento ---")
+        print("1. Lanzar la moneda")
+        print("2. Lanzar el dado")
+        print("3. Salir")
+        
+        opcion = input("Seleccione una opción (1-3): ")
+        
+        if opcion == '1':
+            # Lanzar la moneda
+            resultado_moneda = lanzar_moneda()
+            print(f"Resultado del lanzamiento de la moneda: {resultado_moneda}")
+        
+        elif opcion == '2':
+            # Lanzar el dado
+            resultado_dado = lanzar_dado()
+            print(f"Resultado del lanzamiento del dado: {resultado_dado}")
+        
+        elif opcion == '3':
+            print("¡Hasta luego!")
+            break
+        
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+# Ejecutar el programa
+main()
