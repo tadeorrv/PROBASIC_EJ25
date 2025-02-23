@@ -1,0 +1,31 @@
+#Ejercicio 21
+fig=(input("Ingresa la figura en minusculas: "))
+fig.lower
+
+if fig=="cubo":
+    lado=float(input("Ingrese el lado del cubo: "))
+    v=lado**3
+    print(v)
+elif fig=="esfera":
+    radio=float(input("ingrese el radio de la esfera: "))
+    v=(4/3)*(3.1416)*(radio**3)
+    print(v)
+elif fig=="cilindro":
+    altura=float(input("ingrese la altura del cilindro: "))
+    radio=float(input("Ingrese el radio del cilindro: "))
+    v=(3.1416)*(radio**2)*(altura)
+    print(v)
+elif fig=="prisma rectamgular":
+    largo=float(input("Ingrese el largo de la base: "))
+    ancho=float(input("Ingrese el ancho de la base: "))
+    altura=float(input("Ingrese la altura del prisma: "))
+    v=(largo*ancho)*altura
+    print(v)
+elif fig=="prisma triangular":
+    base=float(input("Ingresa la base del triangulo: "))
+    altura=float(input("aiangresa la altura del triangulo: "))
+    alturadelprisma=float(input("Ingresa la altura del prisma: "))
+    v=((base*altura)/2)*alturadelprisma
+    print(v)
+else:
+    print("figura no valida")
