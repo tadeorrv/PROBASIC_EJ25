@@ -45,62 +45,567 @@ analisisTexto(texto)
 #Ejercicio 2 Manejo de Inventario con listas y diccionarios
 
 
-inventario = {}
+inventario = []
 
+#Funcion para agregar productos al inventario
 def agregar_producto():
-  
-    nombre = input("Ingrese el nombre del producto: ").strip()
-    categoria = input("Ingrese la categoría del producto: ").strip()
+    nombre = input("Ingrese el nombre del producto: ")
+    categoria = input("Ingrese la categoría del producto: ")
     precio = float(input("Ingrese el precio del producto: "))
     cantidad = int(input("Ingrese la cantidad del producto: "))
     
-    #Comprobar si el producto ya existe en el inventario
-    if nombre in inventario:
-        print(f"El producto '{nombre}' ya existe en el inventario.")
-        #Preguntar si quiere actualizar la cantidad del producto
-        respuesta = input(f"¿Desea actualizar la cantidad de '{nombre}'? (s/n): ").strip().lower()
-        if respuesta == 's':
-            inventario[nombre]['cantidad'] += cantidad
-            print(f"Se ha actualizado la cantidad de '{nombre}'. Nueva cantidad: {inventario[nombre]['cantidad']}")
-        else:
-            print(f"No se ha realizado ningún cambio.")
-    else:
-        #Agregar el nuevo producto al inventario
-        inventario[nombre] = {
-            'categoria': categoria,
-            'precio': precio,
-            'cantidad': cantidad
-        }
-        print(f"Producto '{nombre}' agregado exitosamente al inventario.")
+    producto = {
+        "nombre": nombre,
+        "categoria": categoria,
+        "precio": precio,
+        "cantidad": cantidad
+    }
+    
+    inventario.append(producto)
+    print(f"Producto {nombre} agregado al inventario.")
 
-def mostrar_inventario():
-    if inventario:
-        print("\nInventario:")
-        print(f"{'Nombre':<20} {'Categoría':<15} {'Precio':<10} {'Cantidad'}")
-        print("-" * 60)
-        for nombre, detalles in inventario.items():
-            print(f"{nombre:<20} {detalles['categoria']:<15} {detalles['precio']:<10} {detalles['cantidad']}")
-    else:
-        print("El inventario está vacío.")
+#Funcion para eliminar un producto por nombre
+def eliminar_producto():
+    nombre = input("Ingrese el nombre del producto a eliminar: ")
+    
+    global inventario
+    inventario = [producto for producto in inventario if producto["nombre"].lower() != nombre.lower()]
+    
+    print(f"Producto {nombre} eliminado del inventario.")
 
+#Funcion para buscar un producto 
+def buscar_producto():
+    nombre = input("Ingrese el nombre del producto a buscar: ")
+    
+    producto_encontrado = None
+    for producto in inventario:
+        if producto["nombre"].lower() == nombre.lower():
+            producto_encontrado = producto
+            break
+    
+    if producto_encontrado:
+        print(f"Producto encontrado: {producto_encontrado}")
+    else:
+        print(f"Producto {nombre} no encontrado en el inventario.")
+
+#Funcion para mostrar todos los productos ordenados por precio
+def mostrar_productos_ordenados():
+    productos_ordenados = sorted(inventario, key=lambda x: x["precio"])
+    
+    print("Productos ordenados por precio (de menor a mayor):")
+    for producto in productos_ordenados:
+        print(f"Nombre: {producto['nombre']}, Categoría: {producto['categoria']}, Precio: {producto['precio']}, Cantidad: {producto['cantidad']}")
+
+#Menu de opciones
 def menu():
     while True:
-        print("\nSistema de Inventario")
+        print("\n--- Menú ---")
         print("1. Agregar producto")
-        print("2. Mostrar inventario")
-        print("3. Salir")
+        print("2. Eliminar producto")
+        print("3. Buscar producto")
+        print("4. Mostrar productos ordenados por precio")
+        print("5. Salir")
         
         opcion = input("Seleccione una opción: ")
         
-        if opcion == '1':
+        if opcion == "1":
             agregar_producto()
-        elif opcion == '2':
-            mostrar_inventario()
-        elif opcion == '3':
-            print("Saliendo del sistema de inventario...")
+        elif opcion == "2":
+            eliminar_producto()
+        elif opcion == "3":
+            buscar_producto()
+        elif opcion == "4":
+            mostrar_productos_ordenados()
+        elif opcion == "5":
+            print("Saliendo del programa...")
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
+            print("Opción no válida, intente de nuevo.")
 
 
-menu()
+if __name__ == "__main__":
+    menu()
+
+
+#Ejercicio 3
+       
+
+agenda = []
+
+#Funcion para agregar un nuevo contacto
+def agregar_contacto():
+    nombre = input("Ingrese el nombre del contacto: ")
+    numero = input("Ingrese el número del contacto: ")
+    correo = input("Ingrese el correo del contacto: ")
+    
+    
+    contacto = (nombre, numero, correo)
+    
+    #Agregamos la tupla a la lista de agenda
+    agenda.append(contacto)
+    print(f"Contacto {nombre} agregado a la agenda.")
+
+#Funcion para buscar un contacto por nombre
+def buscar_contacto():
+    nombre = input("Ingrese el nombre del contacto a buscar: ")
+    
+    #Buscar el contacto en la agenda
+    contacto_encontrado = None
+    for contacto in agenda:
+        if contacto[0].lower() == nombre.lower():
+            contacto_encontrado = contacto
+            break
+    
+    
+    if contacto_encontrado:
+        print(f"Contacto encontrado: Nombre: {contacto_encontrado[0]}, Número: {contacto_encontrado[1]}, Correo: {contacto_encontrado[2]}")
+    else:
+        print(f"Contacto {nombre} no encontrado en la agenda.")
+
+#Funcion para listar todos los contactos en orden alfabético
+def listar_contactos_ordenados():
+    if not agenda:
+        print("La agenda está vacía.")
+        return
+    
+    #Ordenamos la agenda alfabéticamente por el nombre del contacto (primer elemento de la tupla)
+    agenda_ordenada = sorted(agenda, key=lambda x: x[0].lower())
+    
+    #Mostramos los contactos ordenados
+    print("Lista de contactos ordenada alfabéticamente:")
+    for contacto in agenda_ordenada:
+        print(f"Nombre: {contacto[0]}, Número: {contacto[1]}, Correo: {contacto[2]}")
+
+#Menú de opciones
+def menu():
+    while True:
+        print("\n--- Menú de Gestión de Contactos ---")
+        print("1. Agregar contacto")
+        print("2. Buscar contacto por nombre")
+        print("3. Listar todos los contactos ordenados alfabéticamente")
+        print("4. Salir")
+        
+        opcion = input("Seleccione una opción: ")
+        
+        if opcion == "1":
+            agregar_contacto()
+        elif opcion == "2":
+            buscar_contacto()
+        elif opcion == "3":
+            listar_contactos_ordenados()
+        elif opcion == "4":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+
+if __name__ == "__main__":
+    menu()
+
+#Ejercicio 4
+
+import math
+
+#Funcion para calcular las estadísticas
+def calculadora_estadisticas(*args):
+    #Verificar que la lista no esté vacía
+    if len(args) == 0:
+        return "La lista de números no puede estar vacía."
+    
+    #Calcular el promedio usando lambda
+    promedio = (lambda x: sum(x) / len(x))(args)
+    
+    #Calcular la mediana
+    args_ordenados = sorted(args)
+    n = len(args_ordenados)
+    
+    if n % 2 == 1:
+        #Si es impar, la mediana es el valor central
+        mediana = args_ordenados[n // 2]
+    else:
+        #Si es par, la mediana es el promedio de los dos valores centrales
+        mediana = (args_ordenados[n // 2 - 1] + args_ordenados[n // 2]) / 2
+    
+    #Calcular la desviación estándar
+    varianza = sum((x - promedio) ** 2 for x in args_ordenados) / len(args_ordenados)
+    desviacion_estandar = math.sqrt(varianza)
+    
+    return {
+        "Promedio": promedio,
+        "Mediana": mediana,
+        "Desviación Estándar": desviacion_estandar
+    }
+
+#Funcion principal para interactuar con el usuario
+def main():
+    #Solicitar una lista de números al usuario
+    numeros = input("Ingrese una lista de números separados por espacios: ")
+    
+    #Convertir la entrada en una lista de números flotantes
+    try:
+        lista_numeros = [float(num) for num in numeros.split()]
+    except ValueError:
+        print("Por favor, ingrese solo números válidos.")
+        return
+    
+    #Llamar a la función calculadora_estadisticas con *args
+    resultados = calculadora_estadisticas(*lista_numeros)
+    
+    #Mostrar los resultados
+    if isinstance(resultados, dict):
+        print("\nResultados:")
+        print(f"Promedio: {resultados['Promedio']}")
+        print(f"Mediana: {resultados['Mediana']}")
+        print(f"Desviación Estándar: {resultados['Desviación Estándar']}")
+    else:
+        print(resultados)  
+
+if __name__ == "__main__":
+    main()
+
+
+#Ejercicio 5
+
+#Funcion para convertir kilómetros a millas
+def km_a_millas(km):
+    return km * 0.621371
+
+#Funcion para convertir Celsius a Fahrenheit
+def celsius_a_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+#Funcion para convertir litros a galones
+def litros_a_galones(litros):
+    return litros * 0.264172
+
+#Funcion para mostrar el menú e interactuar con el usuario
+def menu():
+    while True:
+        print("\n--- Menú de Conversión de Unidades ---")
+        print("1. Kilómetros a Millas")
+        print("2. Celsius a Fahrenheit")
+        print("3. Litros a Galones")
+        print("4. Salir")
+        
+        opcion = input("Seleccione una opción: ")
+        
+        if opcion == "1":
+            km = float(input("Ingrese la cantidad en kilómetros: "))
+            print(f"{km} kilómetros son {km_a_millas(km)} millas.")
+        elif opcion == "2":
+            celsius = float(input("Ingrese la temperatura en Celsius: "))
+            print(f"{celsius}°C son {celsius_a_fahrenheit(celsius)}°F.")
+        elif opcion == "3":
+            litros = float(input("Ingrese la cantidad en litros: "))
+            print(f"{litros} litros son {litros_a_galones(litros)} galones.")
+        elif opcion == "4":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+if __name__ == "__main__":
+    menu()
+#Ejercicio 6
+
+class Vehiculo:
+    def __init__(self, marca, modelo, año, precio):
+        self.marca = marca
+        self.modelo = modelo
+        self.año = año
+        self.precio = precio
+    
+    def mostrar_info(self):
+        print(f"Marca: {self.marca}")
+        print(f"Modelo: {self.modelo}")
+        print(f"Año: {self.año}")
+        print(f"Precio: {self.precio} USD")
+
+#Subclase Automovil
+class Automovil(Vehiculo):
+    def __init__(self, marca, modelo, año, precio, numero_puertas):
+        super().__init__(marca, modelo, año, precio)
+        self.numero_puertas = numero_puertas
+    
+    def mostrar_info(self):
+        super().mostrar_info() 
+        print(f"Número de puertas: {self.numero_puertas}")
+
+#Subclase Motocicleta
+class Motocicleta(Vehiculo):
+    def __init__(self, marca, modelo, año, precio, cilindrada):
+        super().__init__(marca, modelo, año, precio)
+        self.cilindrada = cilindrada
+    
+    def mostrar_info(self):
+        super().mostrar_info()  # Llamamos al método de la clase base
+        print(f"Cilindrada: {self.cilindrada} cc")
+
+#Crear objetos de tipo Automovil y Motocicleta
+auto = Automovil("Toyota", "Corolla", 2020, 20000, 4)
+moto = Motocicleta("Honda", "CBR 500R", 2021, 8000, 500)
+
+#Mostrar la información de ambos vehículos
+print("Información del Automóvil:")
+auto.mostrar_info()
+
+print("\nInformación de la Motocicleta:")
+moto.mostrar_info()
+
+#Ejercicio 7
+
+import random
+
+#Funcion para realizar el algoritmo de Quicksort
+def quicksort(lista):
+    if len(lista) <= 1:
+        return lista
+    pivot = lista[0]
+    menores = [x for x in lista[1:] if x <= pivot]
+    mayores = [x for x in lista[1:] if x > pivot]
+    return quicksort(menores) + [pivot] + quicksort(mayores)
+
+#Funcion de busqueda binaria
+def busqueda_binaria(lista, objetivo):
+    izquierda, derecha = 0, len(lista) - 1
+    while izquierda <= derecha:
+        medio = (izquierda + derecha) // 2
+        if lista[medio] == objetivo:
+            return medio  #El índice del objetivo
+        elif lista[medio] < objetivo:
+            izquierda = medio + 1
+        else:
+            derecha = medio - 1
+    return -1  #Si el objetivo no se encuentra
+
+#Generacon de una lista de números aleatorios
+def generar_lista(tamano, rango_min, rango_max):
+    return [random.randint(rango_min, rango_max) for _ in range(tamano)]
+
+#Funcion principal
+def main():
+    # Parámetros para generar la lista
+    tamano = 20  # Número de elementos en la lista
+    rango_min = 1  # Valor mínimo para los números aleatorios
+    rango_max = 100  # Valor máximo para los números aleatorios
+
+    #Generamos la lista
+    lista = generar_lista(tamano, rango_min, rango_max)
+    
+    #Mostramos la lista original
+    print("Lista original:")
+    print(lista)
+
+    #Ordenamos la lista usando Quicksort
+    lista_ordenada = quicksort(lista[:])
+    
+    # Mostramos la lista después del ordenamiento
+    print("\nLista ordenada:")
+    print(lista_ordenada)
+
+    #Solicitar al usuario un número para buscar
+    numero_buscar = int(input("\nIngrese un número para buscar en la lista ordenada: "))
+    
+    #Realizamos la búsqueda binaria
+    indice = busqueda_binaria(lista_ordenada, numero_buscar)
+    
+    if indice != -1:
+        print(f"El número {numero_buscar} se encuentra en la posición {indice} de la lista ordenada.")
+    else:
+        print(f"El número {numero_buscar} no se encuentra en la lista.")
+
+if __name__ == "__main__":
+    main()
+
+#Ejercicio 8
+
+# Función para realizar el algoritmo de Mergesort
+def mergesort(lista):
+    if len(lista) > 1:
+        # Encuentra el punto medio de la lista
+        medio = len(lista) // 2
+        izquierda = lista[:medio]  # Sublista izquierda
+        derecha = lista[medio:]  # Sublista derecha
+
+        # Llamada recursiva a mergesort para ordenar las sublistas
+        mergesort(izquierda)
+        mergesort(derecha)
+
+        # Mezclar las sublistas ordenadas
+        i = j = k = 0
+
+        # Mezcla las dos sublistas en la lista original
+        while i < len(izquierda) and j < len(derecha):
+            if izquierda[i] < derecha[j]:
+                lista[k] = izquierda[i]
+                i += 1
+            else:
+                lista[k] = derecha[j]
+                j += 1
+            k += 1
+
+        # Si quedan elementos en la sublista izquierda
+        while i < len(izquierda):
+            lista[k] = izquierda[i]
+            i += 1
+            k += 1
+
+        # Si quedan elementos en la sublista derecha
+        while j < len(derecha):
+            lista[k] = derecha[j]
+            j += 1
+            k += 1
+
+# Función principal
+def main():
+    # Solicitar al usuario que ingrese una lista de números
+    lista = list(map(int, input("Ingrese una lista de números separados por espacio: ").split()))
+
+    # Mostrar la lista antes del ordenamiento
+    print("\nLista antes de ordenar:")
+    print(lista)
+
+    # Ordenar la lista usando Mergesort
+    mergesort(lista)
+
+    # Mostrar la lista después del ordenamiento
+    print("\nLista después de ordenar:")
+    print(lista)
+
+# Ejecutar la función principal
+if __name__ == "__main__":
+    main()
+
+#Ejercicio 9
+# Paradigma Imperativo: Uso de condicionales y bucles
+
+productos = [
+    {"nombre": "Camiseta", "precio": 15.5, "cantidad": 10},
+    {"nombre": "Pantalón", "precio": 25.0, "cantidad": 5},
+    {"nombre": "Zapatos", "precio": 50.0, "cantidad": 2}
+]
+
+def mostrar_productos():
+    for producto in productos:
+        print(f"{producto['nombre']} - ${producto['precio']} - Cantidad disponible: {producto['cantidad']}")
+
+def comprar_producto(nombre, cantidad):
+    for producto in productos:
+        if producto['nombre'] == nombre:
+            if producto['cantidad'] >= cantidad:
+                producto['cantidad'] -= cantidad
+                print(f"Compra exitosa! {cantidad} {nombre}(s) comprados.")
+                return
+            else:
+                print(f"No hay suficiente stock de {nombre}.")
+                return
+    print(f"Producto {nombre} no encontrado.")
+# Paradigma Estructurado: Separación en funciones
+
+def main():
+    print("Bienvenido a la tienda!")
+    mostrar_productos()
+    
+    nombre_producto = input("¿Qué producto deseas comprar? ")
+    cantidad = int(input("¿Cuántos deseas comprar? "))
+    
+    comprar_producto(nombre_producto, cantidad)
+
+if __name__ == "__main__":
+    main()
+# productos.py
+
+productos = [
+    {"nombre": "Camiseta", "precio": 15.5, "cantidad": 10},
+    {"nombre": "Pantalón", "precio": 25.0, "cantidad": 5},
+    {"nombre": "Zapatos", "precio": 50.0, "cantidad": 2}
+]
+
+def mostrar_productos():
+    for producto in productos:
+        print(f"{producto['nombre']} - ${producto['precio']} - Cantidad disponible: {producto['cantidad']}")
+
+def buscar_producto(nombre):
+    for producto in productos:
+        if producto['nombre'] == nombre:
+            return producto
+    return None
+# productos.py
+
+productos = [
+    {"nombre": "Camiseta", "precio": 15.5, "cantidad": 10},
+    {"nombre": "Pantalón", "precio": 25.0, "cantidad": 5},
+    {"nombre": "Zapatos", "precio": 50.0, "cantidad": 2}
+]
+
+def mostrar_productos():
+    for producto in productos:
+        print(f"{producto['nombre']} - ${producto['precio']} - Cantidad disponible: {producto['cantidad']}")
+
+def buscar_producto(nombre):
+    for producto in productos:
+        if producto['nombre'] == nombre:
+            return producto
+    return None
+# compras.py
+from productos import buscar_producto
+
+def comprar_producto(nombre, cantidad):
+    producto = buscar_producto(nombre)
+    if producto:
+        if producto['cantidad'] >= cantidad:
+            producto['cantidad'] -= cantidad
+            print(f"Compra exitosa! {cantidad} {nombre}(s) comprados.")
+        else:
+            print(f"No hay suficiente stock de {nombre}.")
+    else:
+        print(f"Producto {nombre} no encontrado.")
+# Paradigma Orientado a Objetos
+
+class Producto:
+    def __init__(self, nombre, precio, cantidad):
+        self.nombre = nombre
+        self.precio = precio
+        self.cantidad = cantidad
+    
+    def mostrar_info(self):
+        print(f"{self.nombre} - ${self.precio} - Cantidad disponible: {self.cantidad}")
+
+class Tienda:
+    def __init__(self):
+        self.productos = [
+            Producto("Camiseta", 15.5, 10),
+            Producto("Pantalón", 25.0, 5),
+            Producto("Zapatos", 50.0, 2)
+        ]
+    
+    def mostrar_productos(self):
+        for producto in self.productos:
+            producto.mostrar_info()
+    
+    def comprar_producto(self, nombre, cantidad):
+        for producto in self.productos:
+            if producto.nombre == nombre:
+                if producto.cantidad >= cantidad:
+                    producto.cantidad -= cantidad
+                    print(f"Compra exitosa! {cantidad} {nombre}(s) comprados.")
+                    return
+                else:
+                    print(f"No hay suficiente stock de {nombre}.")
+                    return
+        print(f"Producto {nombre} no encontrado.")
+
+def main():
+    tienda = Tienda()
+    print("Bienvenido a la tienda!")
+    tienda.mostrar_productos()
+    
+    nombre_producto = input("¿Qué producto deseas comprar? ")
+    cantidad = int(input("¿Cuántos deseas comprar? "))
+    
+    tienda.comprar_producto(nombre_producto, cantidad)
+
+if __name__ == "__main__":
+    main()
+
